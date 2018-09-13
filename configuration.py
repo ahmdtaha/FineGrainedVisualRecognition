@@ -19,6 +19,8 @@ if model == 'densenet161':
     network_name = 'nets.densenet161.DenseNet161'
     imagenet__weights_filepath = pretrained_weights_dir+'tf-densenet161/tf-densenet161.ckpt'
     preprocessing_module = 'data_sampling.augmentation.densenet_preprocessing'
+    preprocess_func = 'densenet'
+
 
 if dataset_name == 'cars':
     num_classes = 196
