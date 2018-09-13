@@ -1,6 +1,13 @@
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+
 dataset_dir = '/Users/ahmedtaha/Documents/dataset/'
 pretrained_weights_dir = '/Users/ahmedtaha/Documents/Model/'
+
 training_models_dir = './trained_models'
+tensorbaord_dir = './tb/'
 
 dataset_name = 'cars'
 model = 'densenet161'
@@ -17,6 +24,8 @@ suffix = '_train'
 model_args = [dataset_name ,model ,'lr'+str(learning_rate),'B'+str(batch_size),suffix]
 model_filename = '_'.join(model_args )
 model_save_path = training_models_dir+model_filename
+model_save_name = "patch_model.ckpt"
+tensorbaord_file = os.path.basename(os.path.normpath(model_save_path)) #'20180304-180936'
 
 
 if model == 'densenet161':

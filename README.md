@@ -17,5 +17,6 @@ Credits:
 * [Accumulated Gradient in Tensorflow.](https://stackoverflow.com/questions/46772685/how-to-accumulate-gradients-in-tensorflow)
 * [Training and Evaluating at both time](https://github.com/tensorflow/tensorflow/issues/5987).
 * [Batch Level Augmentation](https://becominghuman.ai/data-augmentation-on-gpu-in-tensorflow-13d14ecf2b19).
+* [Pretrained-DenseNet](https://github.com/pudae/tensorflow-densenet)
 
 I hope I didnt forget other people

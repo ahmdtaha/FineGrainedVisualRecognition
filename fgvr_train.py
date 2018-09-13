@@ -14,9 +14,7 @@ def mprint(msg):
     print(msg)
     # logger.info(msg) # Use your own logger
 
-
 def main():
-
 
     img_generator_class = locate(config.db_tuple_loader)
     args = dict()
@@ -31,7 +29,7 @@ def main():
     train_imgs, train_lbls = train_iter.imgs_and_lbls()
     val_imgs, val_lbls = val_iter.imgs_and_lbls()
 
-    save_model_dir = config.model_save_path;
+    save_model_dir = config.model_save_path
 
     with tf.Graph().as_default():
 
@@ -108,17 +106,8 @@ def main():
         print('Model Path ', ckpt_file)
 
 
-        if config.resume_path is None:
-            if config.dataset_name == 'ham':
-                load_model_msg = 'No Model Loaded'
-                print(load_model_msg)
-            else:
-                load_model_msg = model.load_model(save_model_dir, ckpt_file, sess, saver, is_finetuning=True)
-        else:
-            print('Going to resume from ', config.resume_path)
-            load_model_msg = model.resume_model(save_model_dir,
-                                                os.path.join(config.resume_path, config.model_save_name), sess, saver)
 
+        load_model_msg = model.load_model(save_model_dir, ckpt_file, sess, saver, is_finetuning=True)
         mprint(load_model_msg)
 
 
@@ -153,9 +142,6 @@ def main():
                                                                                 train_time))
 
                 if (current_iter != 0):
-
-
-
                     run_metadata = tf.RunMetadata()
                     tf.local_variables_initializer().run()
                     sess.run(validation_iterator.initializer)
