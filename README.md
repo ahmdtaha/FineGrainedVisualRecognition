@@ -1,5 +1,5 @@
 # FGVR Tensorflow Baseline
-This repo contains training code for FGVR classification using TensorFlow. This implementation achieves comparable state-of-the-art results -- results will be added soon. 
+This repo contains training code for FGVR classification using TensorFlow. This implementation achieves comparable state-of-the-art results.
 
 Checkout the [Wiki](https://github.com/ahmdtaha/fgvr/wiki) for more technical discussion.
 
@@ -14,10 +14,11 @@ FVGR dataset typically involve animal species, models of cars or aircrafts. The 
 |---------------|-------------|-----------------------|------------|----------|-----------|
 | Flowers-102   | 102         | 10                    | 1020       | 1020     | 6149      |
 | CUB-200-2011  | 200         | 29.97                 | 5994       | N/A      | 5794      |
-| Cars          | 196         | 41.55                 | 8144       | N/A      | 8041      |
+| Stanford Cars          | 196         | 41.55                 | 8144       | N/A      | 8041      |
 | NABirds       | 550         | 43.5                  | 23929      | N/A      | 24633     |
 | Aircrafts     | 100         | 100                   | 3334       | 3333     | 3333      |
 | Stanford Dogs | 120         | 100                   | 12000      | N/A      | 8580      |
+
 
 ## Requirements
 
@@ -26,6 +27,20 @@ FVGR dataset typically involve animal species, models of cars or aircrafts. The 
 
 ## Datasets
 I prepare my datasets in an un-conviention way. `dataset_sample` folder provides an example for the cars dataset. Instead of caffe style, listing files and labels in txt file, I use csv file. Reading dataset content in Excel is more appealing, to me, than txt file. To use caffe txt dataset style, make sure to modify `CarsTupleLoader` and `BaseTupleLoader`. This should be trivial since these classes return a list of filenames and labels
+
+## Preliminary Results
+
+Augmentation using random cropping and horizontal flipping on. No color distortion, vertical flipping or any complex augmentation is employed.
+The results are preliminary because I didn't wait for till max_iters -- patience is a virtue I am still learning. Other datasets results and other models like resnet50 will be added later.
+
+| Dataset       | DenseNet161 |
+|---------------|-------------|
+| Flowers-102   | N/A         |
+| CUB-200-2011  | 82.2        |
+| Stanford Cars | 91.13       |
+| NABirds       | N/A         |
+| Aircrafts     | N/A         |
+| Stanford Dogs | N/A         |
 
 ## Running
 
