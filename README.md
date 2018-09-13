@@ -38,7 +38,8 @@ I hope I didnt forget other people
 
 
 ### TODO LIST
-* Write Wiki about Accumulated Gradient in Tensorflow
+* Write a Wiki about Accumulated Gradient in Tensorflow
+* Write a Wiki about Batch normalization and how to train and evaluate concurrently.
 * Report results of these fgvr datasets
 * Add ResNet implementation
 * Add other dataset loaders
