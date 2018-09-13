@@ -10,3 +10,12 @@ Fine grained visual recognition (FGVR) tensorflow baseline.
 | NABirds       | 550         | 43.5                  | 23929      | N/A      | 24633     |
 | Aircrafts     | 100         | 100                   | 3334       | 3333     | 3333      |
 | Stanford Dogs | 120         | 100                   | 12000      | N/A      | 8580      |
+
+
+Credits:
+
+* [Accumulated Gradient in Tensorflow.](https://stackoverflow.com/questions/46772685/how-to-accumulate-gradients-in-tensorflow)
+* [Training and Evaluating at both time](https://github.com/tensorflow/tensorflow/issues/5987).
+* [Batch Level Augmentation](https://becominghuman.ai/data-augmentation-on-gpu-in-tensorflow-13d14ecf2b19).
+
+I hope I didnt forget other people
