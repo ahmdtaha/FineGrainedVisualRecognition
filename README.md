@@ -16,6 +16,13 @@ Requirements
 * Python 3+ [Tested on 3.4.7]
 * Tensorflow 1+ [Tested on 1.8]
 
+Running
+
+Make sure to edit the (1) dataset\_dir (2) pretrained\_weights\_dir in configuration.py.
+Run `python fgvr_train.py `
+
+
+
 Credits:
 
 * [Accumulated Gradient in Tensorflow.](https://stackoverflow.com/questions/46772685/how-to-accumulate-gradients-in-tensorflow)
