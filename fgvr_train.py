@@ -112,7 +112,6 @@ def main():
         val_acc_op = tf.summary.scalar('Batch_Val_Acc', model.val_accuracy)
         model_acc_op = tf.summary.scalar('Split_Val_Accuracy', model.val_accumulated_accuracy)
 
-        validation_loss_weights = np.ones((config.num_classes, config.num_classes))
         mprint('Start Training ***********')
         best_acc = 0
         best_model_step = 0
@@ -145,7 +144,7 @@ def main():
 
                     while True:
                         try:
-                            feed_dict = {model.loss_class_weight: validation_loss_weights, handle: validation_handle}
+                            feed_dict = {handle: validation_handle}
                             val_loss_op, batch_accuracy, accuracy_op, _val_acc_op, _val_acc, c_cnf_mat = sess.run(
                                 [val_loss, model.val_accuracy, model_acc_op, val_acc_op, model.val_accumulated_accuracy,
                                  model.val_confusion_mat], feed_dict)

@@ -11,19 +11,22 @@ Fine grained visual recognition (FGVR) tensorflow baseline.
 | Aircrafts     | 100         | 100                   | 3334       | 3333     | 3333      |
 | Stanford Dogs | 120         | 100                   | 12000      | N/A      | 8580      |
 
-Requirements
+## Requirements
 
 * Python 3+ [Tested on 3.4.7]
 * Tensorflow 1+ [Tested on 1.8]
 
-Running
+## Datasets
+I prepare my datasets in an un-conviention way. `dataset_sample` folder provides an example for the cars dataset. Instead of caffe style, listing files and labels in txt file, I use csv file. Reading dataset content in Excel is more appealing, to me, than txt file. To use caffe txt dataset style, make sure to modify `CarsTupleLoader` and `BaseTupleLoader`. This should be trivial since these classes return a list of filenames and labels
+
+## Running
 
 Make sure to edit the (1) dataset\_dir (2) pretrained\_weights\_dir in configuration.py.
 Run `python fgvr_train.py `
 
 
 
-Credits:
+## Credits:
 
 * [Accumulated Gradient in Tensorflow.](https://stackoverflow.com/questions/46772685/how-to-accumulate-gradients-in-tensorflow)
 * [Training and Evaluating at both time](https://github.com/tensorflow/tensorflow/issues/5987).
@@ -31,5 +34,18 @@ Credits:
 * [Pretrained-DenseNet](https://github.com/pudae/tensorflow-densenet)
 
 I hope I didnt forget other people
+
+
+
+### TODO LIST
+* Write Wiki about Accumulated Gradient in Tensorflow
+* Report results of these fgvr datasets
+* Add ResNet implementation
+* Add other dataset loaders
+
+## Contributor list
+1. [Ahmed Taha](http://www.cs.umd.edu/~ahmdtaha/)
+
+**I don't consider myself a Python expert; so both tips to improve the code and pull requests for contributions as very welcomed**
 
 
