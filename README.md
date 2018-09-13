@@ -1,6 +1,14 @@
 # FGVR Tensorflow Baseline
-Fine grained visual recognition (FGVR) tensorflow baseline.
+This repo contains training code for FGVR classification using TensorFlow. This implementation achieves comparable state-of-the-art results -- results will be added soon. 
 
+Checkout the [Wiki](https://github.com/ahmdtaha/fgvr/wiki) for more technical discussion.
+
+
+
+
+FVGR is a classification task where intra category visual differences are small and can be overwhelmed by factors such as pose, viewpoint, or location of the object in the image. For instance, the following image shows a California gull (left) and a Ringed-beak gull (Right). The beak pattern difference is the key for a correct classification. Such a difference is tiny when compared to the intra-category variations like pose and illumination.
+![](./imgs/fvgr_sample.jpeg)
+FVGR dataset typically involve animal species, models of cars or aircrafts. The following table list six well-known FGVR datasets.
 
 | Dataset       | Num Classes | Avg samples Per Class | Train Size | Val Size | Test Size |
 |---------------|-------------|-----------------------|------------|----------|-----------|
