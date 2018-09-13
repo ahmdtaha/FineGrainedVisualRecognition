@@ -11,6 +11,10 @@ Fine grained visual recognition (FGVR) tensorflow baseline.
 | Aircrafts     | 100         | 100                   | 3334       | 3333     | 3333      |
 | Stanford Dogs | 120         | 100                   | 12000      | N/A      | 8580      |
 
+Requirements
+
+* Python 3+ [Tested on 3.4.7]
+* Tensorflow 1+ [Tested on 1.8]
 
 Credits:
 
@@ -20,3 +24,5 @@ Credits:
 * [Pretrained-DenseNet](https://github.com/pudae/tensorflow-densenet)
 
 I hope I didnt forget other people
+
+
