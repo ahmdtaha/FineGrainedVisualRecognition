@@ -55,6 +55,6 @@ I hope I didnt forget other people
 ## Contributor list
 1. [Ahmed Taha](http://www.cs.umd.edu/~ahmdtaha/)
 
-**I don't consider myself a Python expert; so both tips to improve the code and pull requests for contributions as very welcomed**
+**I am not a Python expert; so both tips to improve the code and pull requests for contributions as very welcomed**
 
 
