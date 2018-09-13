@@ -19,10 +19,7 @@ def main():
     img_generator_class = locate(config.db_tuple_loader)
     args = dict()
     args['csv_file'] = config.train_csv_file
-    args['img_size'] = const.max_frame_size
-    args['gen_hot_vector'] = True
     train_iter = img_generator_class(args)
-    args['batch_size'] = config.batch_size * 2
     args['csv_file'] = config.test_csv_file
     val_iter = img_generator_class(args)
 

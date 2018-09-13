@@ -22,4 +22,4 @@ class CarsTupleLoader(BaseTupleLoader):
         self.data_idx = 0
 
 
-        print('Data size ', self.data_df.shape[0], 'Num lbls', len(self.lbl2idx_dict.keys()), 'Batch Size', self.batch_size)
+        print('Data size ', self.data_df.shape[0], 'Num lbls', len(self.lbl2idx_dict.keys()))

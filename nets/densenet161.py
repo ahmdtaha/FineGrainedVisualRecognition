@@ -301,7 +301,7 @@ class DenseNet161:
                 self.input = images_ph
                 _,w,h,c = self.input.shape
                 aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
-                print('No nnutils Augmentation')
+                # print('No nnutils Augmentation')
             else:
 
                 aug_imgs = tf.cond(self.is_training,
@@ -313,7 +313,7 @@ class DenseNet161:
                 self.input = images_ph
                 _,w,h,c = self.input.shape
                 aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
-                print('No nnutils Augmentation')
+                # print('No nnutils Augmentation')
             else:
                 # self.input = tf.placeholder(tf.float32, shape=(batch_size, const.frame_height, const.frame_width,
                 #                                                const.frame_channels), name='context_input')

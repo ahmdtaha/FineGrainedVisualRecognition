@@ -12,10 +12,10 @@ class TensorflowTupleLoader:
 
     def dataset_from_files(self,train_imgs, train_lbls,is_training,repeat=True,batch_size=None):
 
-        def _parse_function(filename, label,weight):
+        def _parse_function(filename, label):
             image_string = tf.read_file(filename)
             image_decoded = tf.image.decode_jpeg(image_string,channels=3) ## uint8 image
-            return image_decoded, tf.one_hot(label, config.num_classes,dtype=tf.int64),weight
+            return image_decoded, tf.one_hot(label, config.num_classes,dtype=tf.int64)
 
         filenames = tf.constant(train_imgs)
         labels = tf.constant(train_lbls,dtype=tf.int32)

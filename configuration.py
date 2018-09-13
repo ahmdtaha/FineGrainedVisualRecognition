@@ -38,7 +38,7 @@ if model == 'densenet161':
 if dataset_name == 'cars':
     num_classes = 196
     db_path = dataset_dir+'stanford_cars'
-    db_tuple_loader = 'data_sampling.cars_tuple_loader.CarsTupleLoader'
+    db_tuple_loader = 'data.cars_tuple_loader.CarsTupleLoader'
     train_csv_file = '/lists/train_all_sub_list.csv'
     val_csv_file = '/lists/val_all_sub_list.csv'
     test_csv_file = '/lists/test_all_sub_list.csv'
