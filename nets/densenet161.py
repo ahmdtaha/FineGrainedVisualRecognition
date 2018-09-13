@@ -284,8 +284,7 @@ class DenseNet161:
 
     def __init__(self,num_classes, weight_decay=0.0001, data_format='NHWC',is_training=False,reuse=None,
                  images_ph = None,
-                 lbls_ph = None,
-                 weights_ph=None):
+                 lbls_ph = None):
 
         batch_size = None
         if lbls_ph is not None:
@@ -294,7 +293,6 @@ class DenseNet161:
             self.gt_lbls = tf.placeholder(tf.int32, shape=(batch_size, config.num_classes), name='class_lbls')
 
         self.is_training = tf.placeholder(tf.bool, name='training')
-        self.loss_class_weight = tf.placeholder(tf.float32, shape=(num_classes, num_classes), name='weights')
         self.input = tf.placeholder(tf.float32, shape=(batch_size, const.max_frame_size, const.max_frame_size,
                                                        const.frame_channels), name='context_input')
 

@@ -4,13 +4,13 @@ import configuration as config
 import constants as const
 from nets import nn_utils
 
-class QuickTupleLoader:
+class TensorflowTupleLoader:
 
-    def __init__(self,imgs,lbls,training_weights ,is_training,repeat=True,batch_size=None):
-        self.dataset = self.dataset_from_files(imgs, lbls,training_weights,is_training,repeat=repeat,batch_size=batch_size)
+    def __init__(self,imgs,lbls ,is_training,repeat=True,batch_size=None):
+        self.dataset = self.dataset_from_files(imgs, lbls,is_training,repeat=repeat,batch_size=batch_size)
 
 
-    def dataset_from_files(self,train_imgs, train_lbls,training_weights,is_training,repeat=True,batch_size=None):
+    def dataset_from_files(self,train_imgs, train_lbls,is_training,repeat=True,batch_size=None):
 
         def _parse_function(filename, label,weight):
             image_string = tf.read_file(filename)
@@ -19,9 +19,9 @@ class QuickTupleLoader:
 
         filenames = tf.constant(train_imgs)
         labels = tf.constant(train_lbls,dtype=tf.int32)
-        weights = tf.constant(training_weights, dtype=tf.float32)
 
-        dataset = tf.data.Dataset.from_tensor_slices((filenames, labels,weights))
+
+        dataset = tf.data.Dataset.from_tensor_slices((filenames, labels))
 
         if repeat:
             dataset = dataset.shuffle(len(train_imgs))
@@ -50,10 +50,10 @@ class QuickTupleLoader:
 
         ## Batch Level Augmentation
         if is_training:
-            dataset = dataset.map(lambda im_batch, lbl_batch,weight: (nn_utils.augment(im_batch,
-                                                           resize=(const.frame_height, const.frame_width),horizontal_flip=True, vertical_flip=False, rotate=0, crop_probability=0,crop_min_percent=0), lbl_batch,weight))
+            dataset = dataset.map(lambda im_batch, lbl_batch: (nn_utils.augment(im_batch,
+                                                           resize=(const.frame_height, const.frame_width),horizontal_flip=True, vertical_flip=False, rotate=0, crop_probability=0,crop_min_percent=0), lbl_batch))
         else:
-            dataset = dataset.map(lambda im_batch, lbl_batch,weight: (nn_utils.center_crop(im_batch),lbl_batch,weight))
+            dataset = dataset.map(lambda im_batch, lbl_batch: (nn_utils.center_crop(im_batch),lbl_batch))
 
 
         dataset = dataset.prefetch(1)

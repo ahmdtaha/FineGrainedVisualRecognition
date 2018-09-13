@@ -1,3 +1,6 @@
+dataset_dir = '/Users/ahmedtaha/Documents/dataset/'
+pretrained_weights_dir = '/Users/ahmedtaha/Documents/Model/'
+training_models_dir = './trained_models'
 
 dataset_name = 'cars'
 model = 'densenet161'
@@ -6,14 +9,15 @@ model = 'densenet161'
 batch_size = 32
 learning_rate = 0.1
 end_learning_rate = 0
-max_iter = 40000
+max_iter = 10000
 logging_threshold = 100
 caffe_iter_size = 12
+suffix = '_train'
 
+model_args = [dataset_name ,model ,'lr'+str(learning_rate),'B'+str(batch_size),suffix]
+model_filename = '_'.join(model_args )
+model_save_path = training_models_dir+model_filename
 
-
-dataset_dir = '/Users/ahmedtaha/Documents/dataset/'
-pretrained_weights_dir = '/Users/ahmedtaha/Documents/Model/'
 
 if model == 'densenet161':
     network_name = 'nets.densenet161.DenseNet161'
