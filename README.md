@@ -72,6 +72,6 @@ The following deserve credit for the tips and help provided to finish this code 
 ## Contributor list
 1. [Ahmed Taha](http://www.cs.umd.edu/~ahmdtaha/)
 
-**I am not a Python expert; so both tips to improve the code and pull requests for contributions as very welcomed**
+**I am not a Python expert; so both tips to improve the code and pull requests to contribute are very welcomed**
 
 
