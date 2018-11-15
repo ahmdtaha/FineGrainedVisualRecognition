@@ -322,7 +322,7 @@ class DenseNet161:
                                                             rotate=0, crop_probability=0, color_aug_probability=0)
                                    , lambda: nn_utils.center_crop(self.input))
 
-        self.batch_norm_enabled = tf.Variable(True, name='is_training', dtype=tf.bool, trainable=False)
+        #self.batch_norm_enabled = tf.Variable(True, name='is_training', dtype=tf.bool, trainable=False)
         with tf.contrib.slim.arg_scope(densenet_arg_scope(weight_decay=weight_decay, data_format=data_format)):
             nets, train_end_points = densenet(aug_imgs,
                   num_classes=num_classes,

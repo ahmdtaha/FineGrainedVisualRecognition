@@ -3,14 +3,14 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
-dataset_dir = '/Users/ahmedtaha/Documents/dataset/'
-pretrained_weights_dir = '/Users/ahmedtaha/Documents/Model/'
+dataset_dir = '/mnt/work/datasets/'
+pretrained_weights_dir = '/mnt/work/datasets/Model/'
 
-training_models_dir = './trained_models'
+training_models_dir = './trained_models/'
 tensorbaord_dir = './tb/'
 
 dataset_name = 'cars'
-model = 'densenet161'
+model = 'resnet50'
 
 
 batch_size = 32
@@ -33,6 +33,11 @@ if model == 'densenet161':
     imagenet__weights_filepath = pretrained_weights_dir+'tf-densenet161/tf-densenet161.ckpt'
     preprocessing_module = 'data_sampling.augmentation.densenet_preprocessing'
     preprocess_func = 'densenet'
+elif model == 'resnet50':
+    network_name = 'nets.resnet_v2.ResNet50'
+    imagenet__weights_filepath = pretrained_weights_dir + 'resnet_v2_50/resnet_v2_50.ckpt'
+    preprocess_func = 'inception_v1'
+    preprocessing_module = 'data_sampling.augmentation.inception_preprocessing'
 
 
 if dataset_name == 'cars':

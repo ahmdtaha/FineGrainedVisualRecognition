@@ -81,6 +81,15 @@ def denseNet_preprocess(images):
     #images = images * _SCALE_FACTOR;
     return images
 
+def inception_preprocessing(images):
+
+    images = tf.image.convert_image_dtype(images, dtype=tf.float32)
+    images = images / 255.0
+    images = tf.subtract(images, 0.5)
+    images = tf.multiply(images, 2.0)
+
+    return images
+
 def center_crop(images): ## Used during evaluation
     center_offest = (256 - const.frame_width )//2 # I already resized all images to 256
     images = tf.image.crop_to_bounding_box(images, center_offest , center_offest , const.frame_height, const.frame_width)
@@ -124,6 +133,12 @@ def augment(images,
     if config.preprocess_func == 'densenet':
         print('DenseNet Format Augmentation')
         images = denseNet_preprocess(images)
+    elif config.preprocess_func == 'inception_v1':
+        print('DenseNet Format Augmentation')
+        images = inception_preprocessing(images)
+    else:
+        raise NotImplementedError()
+
 
 
     with tf.name_scope('augmentation'):
