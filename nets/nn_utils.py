@@ -96,10 +96,7 @@ def center_crop(images): ## Used during evaluation
 
     if config.preprocess_func == 'inception_v1':
         print('Inception Format Augmentation')
-        images = tf.image.convert_image_dtype(images, dtype=tf.float32)
-        images = images / 255.0
-        images = tf.subtract(images, 0.5)
-        images = tf.multiply(images, 2.0)
+        images = inception_preprocessing(images)
     elif config.preprocess_func == 'densenet':
         print('DenseNet Format Augmentation')
         images = denseNet_preprocess(images)
@@ -134,7 +131,7 @@ def augment(images,
         print('DenseNet Format Augmentation')
         images = denseNet_preprocess(images)
     elif config.preprocess_func == 'inception_v1':
-        print('DenseNet Format Augmentation')
+        print('Inception Format Augmentation')
         images = inception_preprocessing(images)
     else:
         raise NotImplementedError()

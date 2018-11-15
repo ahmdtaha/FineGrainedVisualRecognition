@@ -1,8 +1,22 @@
+import configuration as config
+import numpy as np
+import imageio
+import cv2
+import constants as const
+import pandas as pd
 
 class BaseTupleLoader:
 
-    def __init__(self):
-        pass
+    def __init__(self,args):
+        csv_file = args['csv_file']
+        db_path = config.db_path
+        self.data_df = pd.read_csv(db_path + csv_file)
+
+        shuffle_data = args['shuffle'] if 'shuffle' in args else True
+        if shuffle_data:
+            self.data_permutation = np.random.permutation(self.data_df.shape[0])
+        else:
+            self.data_permutation = list(range(self.data_df.shape[0]))
 
 
     def imgs_and_lbls(self):

@@ -47,4 +47,17 @@ if dataset_name == 'cars':
     train_csv_file = '/lists/train_all_sub_list.csv'
     val_csv_file = '/lists/val_all_sub_list.csv'
     test_csv_file = '/lists/test_all_sub_list.csv'
+elif dataset_name == 'flowers':
+    num_classes = 102
+    db_path = dataset_dir+'flower102'
+    db_tuple_loader = 'data.flower_tuple_loader.FLower102TupleLower'
+    train_csv_file = '/lists/train_all_sub_list.csv'
+    val_csv_file = '/lists/val_all_sub_list.csv'
+    test_csv_file = '/lists/test_all_sub_list.csv'
 
+
+def touch_dir(path):
+    if(not os.path.exists(path)):
+        os.makedirs(path)
+
+touch_dir(model_save_path)

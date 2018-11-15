@@ -3,12 +3,12 @@ import numpy as np
 import pandas as pd
 import configuration as config
 
-class CarsTupleLoader(BaseTupleLoader):
+class FLower102TupleLower(BaseTupleLoader):
 
-    def __init__(self,args):
+    def __init__(self,args=None):
         BaseTupleLoader.__init__(self,args)
 
-        self.img_path = config.db_path + '/'
+        self.img_path = config.db_path + '/jpg/'
 
         lbls = self.data_df['label']
         lbl2idx = np.sort(np.unique(lbls))
@@ -18,6 +18,5 @@ class CarsTupleLoader(BaseTupleLoader):
 
         self.num_classes = len(self.lbl2idx_dict.keys())
         self.data_idx = 0
-
 
         print('Data size ', self.data_df.shape[0], 'Num lbls', len(self.lbl2idx_dict.keys()))
