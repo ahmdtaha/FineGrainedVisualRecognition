@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
@@ -9,7 +9,7 @@ pretrained_weights_dir = '/mnt/work/datasets/Model/'
 training_models_dir = './trained_models/'
 tensorbaord_dir = './tb/'
 
-dataset_name = 'cars'
+dataset_name = 'flowers'
 model = 'resnet50'
 
 
@@ -18,8 +18,9 @@ learning_rate = 0.1
 end_learning_rate = 0
 max_iter = 10000
 logging_threshold = 100
+test_iteration = logging_threshold * 10
 caffe_iter_size = 12
-suffix = '_train'
+suffix = '_train_test'
 
 model_args = [dataset_name ,model ,'lr'+str(learning_rate),'B'+str(batch_size),suffix]
 model_filename = '_'.join(model_args )

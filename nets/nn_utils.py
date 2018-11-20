@@ -82,9 +82,8 @@ def denseNet_preprocess(images):
     return images
 
 def inception_preprocessing(images):
-
+    #print(images)
     images = tf.image.convert_image_dtype(images, dtype=tf.float32)
-    images = images / 255.0
     images = tf.subtract(images, 0.5)
     images = tf.multiply(images, 2.0)
 

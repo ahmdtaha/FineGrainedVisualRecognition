@@ -8,11 +8,12 @@ from pydoc import locate
 import time
 from data.tf_tuple_loader import TensorflowTupleLoader
 from utils import tf_utils
+import logging.config
+from utils import log_utils
 
-
-def mprint(msg):
-    print(msg)
-    # logger.info(msg) # Use your own logger
+def mprint(msg,log):
+    #print(msg)
+    log.info(msg) # Use your own logger
 
 def main():
 
@@ -28,6 +29,10 @@ def main():
 
     save_model_dir = config.model_save_path
 
+    log_file = os.path.join(save_model_dir, "train")
+    logging.config.dictConfig(log_utils.get_logging_dict(log_file))
+    log = logging.getLogger('train')
+    log.info('Data Loading complete')
     with tf.Graph().as_default():
 
         train_dataset = TensorflowTupleLoader(train_imgs, train_lbls, is_training=True).dataset
@@ -93,7 +98,7 @@ def main():
         else:
             tb_path = config.tensorbaord_dir + config.tensorbaord_file
 
-        start_iter = 0 # No Resume in this code version
+        start_iter = 1 # No Resume in this code version
 
         train_writer = tf.summary.FileWriter(tb_path, sess.graph)
 
@@ -105,24 +110,24 @@ def main():
 
 
         load_model_msg = model.load_model(save_model_dir, ckpt_file, sess, saver, is_finetuning=True)
-        mprint(load_model_msg)
+        mprint(load_model_msg,log)
 
 
         val_loss = tf.summary.scalar('Val_Loss', model.val_loss)
         val_acc_op = tf.summary.scalar('Batch_Val_Acc', model.val_accuracy)
         model_acc_op = tf.summary.scalar('Split_Val_Accuracy', model.val_accumulated_accuracy)
 
-        mprint('Start Training ***********')
+        mprint('Start Training ***********',log)
         best_acc = 0
         best_model_step = 0
-        for current_iter in range(start_iter, config.max_iter):
+        for current_iter in range(start_iter, config.max_iter+1):
             start_time_train = time.time()
 
+            feed_dict = {handle: training_handle}
             for mini_batch in range(config.caffe_iter_size - 1):
-                feed_dict = {handle: training_handle}
+                #feed_dict = {handle: training_handle}
                 sess.run(accum_ops, feed_dict)
 
-            feed_dict = {handle: training_handle}
             model_loss_value, accuracy_value, _ = sess.run([model.train_loss, model.train_accuracy, train_op],
                                                            feed_dict)
 
@@ -132,12 +137,12 @@ def main():
             train_time = time.time() - start_time_train
 
 
-            if (current_iter % config.logging_threshold == 0):
+            if (current_iter % config.logging_threshold == 0 or current_iter ==1):
                 mprint(
                     'i {0:04d} loss {1:4f} Acc {2:2f} Batch Time {3:3f}'.format(current_iter, model_loss_value, accuracy_value,
-                                                                                train_time))
+                                                                                train_time),log)
 
-                if (current_iter != 0):
+                if (current_iter % config.test_iteration == 0):
                     run_metadata = tf.RunMetadata()
                     tf.local_variables_initializer().run()
                     sess.run(validation_iterator.initializer)
@@ -149,7 +154,7 @@ def main():
                                 [val_loss, model.val_accuracy, model_acc_op, val_acc_op, model.val_accumulated_accuracy,
                                  model.val_confusion_mat], feed_dict)
                         except tf.errors.OutOfRangeError:
-                            mprint('Val Acc {0} {1}'.format(_val_acc, batch_accuracy))
+                            mprint('Val Acc {0}'.format(_val_acc),log)
                             break
 
 
@@ -169,7 +174,7 @@ def main():
                             best_acc = _val_acc
                             best_model_step = current_iter
                         ## Early dropping style.
-                        mprint('Best Acc {0} at {1} == {2}'.format(best_acc, best_model_step, config.model_filename))
+                        mprint('Best Acc {0} at {1} == {2}'.format(best_acc, best_model_step, config.model_filename),log)
 
         saver.save(sess, ckpt_file)  ## Save final ckpt before closing
         ckpt = os.path.join(save_model_dir, str(current_iter), config.model_save_name)
