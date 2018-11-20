@@ -31,16 +31,16 @@ I prepare my datasets in an un-conviention way. `dataset_sample` folder provides
 ## Preliminary Results
 
 Augmentation using random cropping and horizontal flipping on. No color distortion, vertical flipping or any complex augmentation is employed.
-The results are preliminary because I didn't wait for till max_iters -- patience is a virtue I am still learning. Other datasets results and other models like resnet50 will be added later.
+The results are preliminary because I didn't wait for till max_iters -- patience is a not my best virtue. Other datasets results and other models like resnet50 will be added later.
 
-| Dataset       | DenseNet161 |
-|---------------|-------------|
-| Flowers-102   | N/A         |
-| CUB-200-2011  | 82.2        |
-| Stanford Cars | 91.13       |
-| NABirds       | N/A         |
-| Aircrafts     | N/A         |
-| Stanford Dogs | N/A         |
+| Dataset       | DenseNet161 | ResNet50 V2 |
+|---------------|-------------|-------------|
+| Flowers-102   | N/A         | 85.59         |
+| CUB-200-2011  | 82.2        | N/A         |
+| Stanford Cars | 91.13       | N/A         |
+| NABirds       | N/A         | N/A         |
+| Aircrafts     | N/A         | N/A         |
+| Stanford Dogs | N/A         | N/A         |
 
 ## Running
 

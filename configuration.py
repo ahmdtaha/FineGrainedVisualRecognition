@@ -13,7 +13,7 @@ dataset_name = 'flowers'
 model = 'resnet50'
 
 
-batch_size = 32
+batch_size = 5
 learning_rate = 0.1
 end_learning_rate = 0
 max_iter = 10000
