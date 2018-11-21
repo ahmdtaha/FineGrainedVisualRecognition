@@ -37,10 +37,10 @@ The results are preliminary because I didn't wait for till max_iters -- patience
 |---------------|-------------|-------------|
 | Flowers-102   | N/A         | 85.59         |
 | CUB-200-2011  | 82.2        | N/A         |
-| Stanford Cars | 91.13       | N/A         |
+| Stanford Cars | 91.13       | 86.84         |
 | NABirds       | N/A         | N/A         |
 | Aircrafts     | N/A         | N/A         |
-| Stanford Dogs | N/A         | N/A         |
+| Stanford Dogs | N/A         | 70.36         |
 
 ## Running
 
