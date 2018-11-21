@@ -9,7 +9,7 @@ pretrained_weights_dir = '/mnt/work/datasets/Model/'
 training_models_dir = './trained_models/'
 tensorbaord_dir = './tb/'
 
-dataset_name = 'flowers'
+dataset_name = 'aircrafts'
 model = 'resnet50'
 
 
@@ -55,7 +55,29 @@ elif dataset_name == 'flowers':
     train_csv_file = '/lists/train_all_sub_list.csv'
     val_csv_file = '/lists/val_all_sub_list.csv'
     test_csv_file = '/lists/test_all_sub_list.csv'
-
+elif dataset_name == 'dogs':
+    num_classes = 120
+    db_path = dataset_dir + 'Stanford_dogs'
+    db_tuple_loader = 'data.dogs_tuple_loader.DogsTupleLoader'
+    default_image_size = 224
+    train_csv_file = '/lists/train_all_sub_list.csv'
+    val_csv_file = '/lists/val_sub_list.csv'
+    test_csv_file = '/lists/test_all_sub_list.csv'
+elif dataset_name == 'birds':
+    num_classes = 555
+    db_path = dataset_dir+'nabirds'
+    db_tuple_loader = 'data.birds_tuple_loader.BirdsTupleLoader'
+    default_image_size = 224
+    train_csv_file = '/lists/train_all_sub_list.csv'
+    val_csv_file = '/lists/val_sub_list.csv'
+    test_csv_file = '/lists/test_all_sub_list.csv'
+elif dataset_name == 'aircrafts':
+    num_classes = 100
+    db_path = dataset_dir+'aircrafts'
+    db_tuple_loader = 'data.aircrafts_tuple_loader.AircraftsTupleLoader'
+    train_csv_file = '/lists/train_all_sub_list.csv'
+    val_csv_file = '/lists/val_all_sub_list.csv'
+    test_csv_file = '/lists/test_all_sub_list.csv'
 
 def touch_dir(path):
     if(not os.path.exists(path)):

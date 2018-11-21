@@ -1,14 +1,13 @@
 from data.base_tuple_loader import BaseTupleLoader
 import numpy as np
-import pandas as pd
 import configuration as config
 
-class FLower102TupleLower(BaseTupleLoader):
 
-    def __init__(self,args=None):
+class AircraftsTupleLoader(BaseTupleLoader):
+    def __init__(self,args):
         BaseTupleLoader.__init__(self,args)
+        self.img_path = config.db_path + '/fgvc-aircraft-2013b/data/images/'
 
-        self.img_path = config.db_path + '/jpg/'
 
         lbls = self.data_df['label']
         lbl2idx = np.sort(np.unique(lbls))
@@ -17,5 +16,4 @@ class FLower102TupleLower(BaseTupleLoader):
         self.final_lbls = [self.lbl2idx_dict[x] for x in list(lbls.values)]
 
         self.num_classes = len(self.lbl2idx_dict.keys())
-
-        print('Data size ', self.data_df.shape[0], 'Num lbls', len(self.lbl2idx_dict.keys()))
+        print(self.__class__.__name__, ' Data size ', self.data_df.shape[0], 'Num lbls', len(self.lbl2idx_dict.keys()))

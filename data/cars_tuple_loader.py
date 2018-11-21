@@ -1,6 +1,5 @@
 from data.base_tuple_loader import BaseTupleLoader
 import numpy as np
-import pandas as pd
 import configuration as config
 
 class CarsTupleLoader(BaseTupleLoader):
