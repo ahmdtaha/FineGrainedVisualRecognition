@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
@@ -9,14 +9,14 @@ pretrained_weights_dir = '/mnt/work/datasets/Model/'
 training_models_dir = './trained_models/'
 tensorbaord_dir = './tb/'
 
-dataset_name = 'aircrafts'
-model = 'resnet50'
+dataset_name = 'dogs'
+model = 'densenet161'
 
 
-batch_size = 5
+batch_size = 32
 learning_rate = 0.1
 end_learning_rate = 0
-max_iter = 10000
+max_iter = 20000
 logging_threshold = 100
 test_iteration = logging_threshold * 10
 caffe_iter_size = 12
@@ -77,6 +77,13 @@ elif dataset_name == 'aircrafts':
     db_tuple_loader = 'data.aircrafts_tuple_loader.AircraftsTupleLoader'
     train_csv_file = '/lists/train_all_sub_list.csv'
     val_csv_file = '/lists/val_all_sub_list.csv'
+    test_csv_file = '/lists/test_all_sub_list.csv'
+elif dataset_name == 'cub':
+    num_classes = 200
+    db_path = dataset_dir+'CUB_200_2011'
+    db_tuple_loader = 'data.CUB_tuple_loader.CUBTupleLoader'
+    train_csv_file = '/lists/train_all_sub_list.csv'
+    val_csv_file = '/lists/val_sub_list.csv'
     test_csv_file = '/lists/test_all_sub_list.csv'
 
 def touch_dir(path):

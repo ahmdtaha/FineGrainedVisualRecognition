@@ -99,6 +99,8 @@ def center_crop(images): ## Used during evaluation
     elif config.preprocess_func == 'densenet':
         print('DenseNet Format Augmentation')
         images = denseNet_preprocess(images)
+    else:
+        raise NotImplementedError()
 
     return images
 
