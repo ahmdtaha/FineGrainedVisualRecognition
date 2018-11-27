@@ -54,7 +54,7 @@ Run `python fgvr_train.py `
 The following deserve credit for the tips and help provided to finish this code and achieve the reported results
 
 * [Accumulated Gradient in Tensorflow.](https://stackoverflow.com/questions/46772685/how-to-accumulate-gradients-in-tensorflow)
-* [Training and Evaluating at both time](https://github.com/tensorflow/tensorflow/issues/5987).
+* [Training and Evaluating at the same time](https://github.com/tensorflow/tensorflow/issues/5987).
 * [Batch Level Augmentation](https://becominghuman.ai/data-augmentation-on-gpu-in-tensorflow-13d14ecf2b19).
 * [Pretrained-DenseNet](https://github.com/pudae/tensorflow-densenet)
 
