@@ -31,7 +31,7 @@ I prepare my datasets in an un-conviention way. `dataset_sample` folder provides
 ## Preliminary Results
 
 Augmentation using random cropping and horizontal flipping on. No color distortion, vertical flipping or any complex augmentation is employed.
-The results are preliminary because I didn't wait for till max_iters -- patience is a not my best virtue. Other datasets results and other models like resnet50 will be added later.
+The results are preliminary because I didn't wait for till max_iters. Other datasets results and other models like resnet50 will be added later.
 
 | Dataset       | DenseNet161 | ResNet50 V2 |
 |---------------|-------------|-------------|
