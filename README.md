@@ -63,11 +63,12 @@ The following deserve credit for the tips and help provided to finish this code 
 
 
 ### TODO LIST
-* Write a Wiki about Accumulated Gradient in Tensorflow
-* Write a Wiki about Batch normalization and how to train and evaluate concurrently.
-* Report results of these fgvr datasets
-* Add ResNet implementation
-* Add other dataset loaders
+* [Done] Write a Wiki about Accumulated Gradient in Tensorflow
+* [Done] Write a Wiki about Batch normalization and how to train and evaluate concurrently.
+* [Done] Report results of these fgvr datasets
+* [Done] Add ResNet implementation
+* [Done] Add other dataset loaders
+* Add separate evaluation.py to eval a trained model
 
 ## Contributor list
 1. [Ahmed Taha](http://www.cs.umd.edu/~ahmdtaha/)
