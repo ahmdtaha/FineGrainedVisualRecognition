@@ -21,20 +21,27 @@ def main():
     args = dict()
     args['csv_file'] = config.train_csv_file
     train_iter = img_generator_class(args)
+
     args['csv_file'] = config.test_csv_file
     val_iter = img_generator_class(args)
 
     train_imgs, train_lbls = train_iter.imgs_and_lbls()
     val_imgs, val_lbls = val_iter.imgs_and_lbls()
 
+    # Where to save the trained model
     save_model_dir = config.model_save_path
 
+
+    ## Log experiment
     log_file = os.path.join(save_model_dir, "train")
     logging.config.dictConfig(log_utils.get_logging_dict(log_file))
     log = logging.getLogger('train')
     log.info('Data Loading complete')
+
     with tf.Graph().as_default():
 
+        # Create train and val dataset following tensorflow Data API
+        ## A dataset element has an image and lable
         train_dataset = TensorflowTupleLoader(train_imgs, train_lbls, is_training=True).dataset
         val_dataset = TensorflowTupleLoader(val_imgs, val_lbls, is_training=False, batch_size=config.batch_size,
                                        repeat=False).dataset
@@ -48,6 +55,7 @@ def main():
         training_iterator = train_dataset.make_one_shot_iterator()
         validation_iterator = val_dataset.make_initializable_iterator()
 
+        ## Load a pretrained network {resnet_v2 or densenet161} based on config.network_name configuration
         network_class = locate(config.network_name)
         model = network_class(num_classes=config.num_classes, is_training=True, images_ph=images_ph, lbls_ph=lbls_ph)
 
@@ -76,7 +84,8 @@ def main():
                 train_op = optimizer.apply_gradients([(accum_vars[i] / iter_size, gv[1]) for i, gv in enumerate(grads)],
                                                      global_step=global_step)
 
-            else:
+            else: # If accumulated gradient disabled, do regular training
+
                 grads = optimizer.compute_gradients(model.train_loss)
                 train_op = optimizer.apply_gradients(grads, global_step=global_step)
 
@@ -88,6 +97,7 @@ def main():
         sess = tf.InteractiveSession()
         tf.global_variables_initializer().run()
         tf.local_variables_initializer().run()
+
         training_handle = sess.run(training_iterator.string_handle())
         validation_handle = sess.run(validation_iterator.string_handle())
 
@@ -122,17 +132,23 @@ def main():
         best_model_step = 0
         for current_iter in range(start_iter, config.max_iter+1):
             start_time_train = time.time()
-
             feed_dict = {handle: training_handle}
+
+            ## Here is where training and backpropagation start
+
+            # In case accumulated gradient enabled, i.e. config.caffe_iter_size > 1
             for mini_batch in range(config.caffe_iter_size - 1):
-                #feed_dict = {handle: training_handle}
                 sess.run(accum_ops, feed_dict)
+
 
             model_loss_value, accuracy_value, _ = sess.run([model.train_loss, model.train_accuracy, train_op],
                                                            feed_dict)
 
-            if config.caffe_iter_size > 1:  ## Accumulated Gradient
+            # In case accumulated gradient enabled, reset shadow variables
+            if config.caffe_iter_size > 1:
                 sess.run(zero_ops)
+
+            ## Here is where training and backpropagation end
 
             train_time = time.time() - start_time_train
 

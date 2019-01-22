@@ -19,7 +19,22 @@ class BaseTupleLoader:
             self.data_permutation = list(range(self.data_df.shape[0]))
 
 
+
     def imgs_and_lbls(self):
+
+        """
+        This functions returns a dataset, of images and labels, defined in the child sub-class inheriting this base-class .
+        Args:
+            No Args
+
+        Returns:
+            This function returns two lists
+            The first and second list contains images and their corresponding labels respectively.
+
+        Raises:
+            No exceptions raised.
+        """
+
         images = []
         lbls = []
         imgs = self.data_df
