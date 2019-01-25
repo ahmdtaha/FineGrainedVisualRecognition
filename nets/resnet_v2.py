@@ -412,38 +412,69 @@ class ResNet50:
         else:
             self.gt_lbls = tf.placeholder(tf.int32, shape=(batch_size, config.num_classes), name='class_lbls')
 
-        self.is_training = tf.placeholder(tf.bool, name='training')
-        self.input = tf.placeholder(tf.float32, shape=(batch_size, const.max_frame_size, const.max_frame_size,
-                                                       const.frame_channels), name='context_input')
+        self.augment_input = tf.placeholder(tf.bool, name='augment_input')
 
-        if is_training:
-            if images_ph is not None:
-                self.input = images_ph
-                _, w, h, c = self.input.shape
-                aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
-                # print('No nnutils Augmentation')
-            else:
 
-                aug_imgs = tf.cond(self.is_training,
-                                   lambda: nn_utils.augment(self.input, horizontal_flip=True, vertical_flip=False,
-                                                            rotate=0, crop_probability=0, color_aug_probability=0)
-                                   , lambda: nn_utils.center_crop(self.input))
+        ## Check whether to use placeholder for training (images_ph == None),
+        # or the caller training procedure already provide images dataset pipeline
+        if images_ph is not None:
+            ## If training using images TF dataset pipeline, no need to do augmentation,
+            #  just make sure the input is in the correct shape
+
+            ## This alternative is more efficient because it avoid the discouraged TF placeholder usage
+            self.input = images_ph
+            _, w, h, c = self.input.shape
+            aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
         else:
-            if images_ph is not None:
-                self.input = images_ph
-                _, w, h, c = self.input.shape
-                aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
-                # print('No nnutils Augmentation')
-            else:
-                # self.input = tf.placeholder(tf.float32, shape=(batch_size, const.frame_height, const.frame_width,
-                #                                                const.frame_channels), name='context_input')
-                aug_imgs = tf.cond(self.is_training,
-                                   lambda: nn_utils.augment(self.input, horizontal_flip=True, vertical_flip=False,
-                                                            rotate=0, crop_probability=0, color_aug_probability=0)
-                                   , lambda: nn_utils.center_crop(self.input))
+
+            # If the input provide no images TF dataset pipeline
+            # Revert to the traditional placeholder usage
+            self.input = tf.placeholder(tf.float32, shape=(batch_size, const.max_frame_size, const.max_frame_size,
+                                                           const.frame_channels), name='context_input')
+
+            ## Training procedure controls whether to augment placeholder images
+            #  using self.augment_input bool tensor
+            aug_imgs = tf.cond(self.augment_input,
+                               lambda: nn_utils.augment(self.input, horizontal_flip=True, vertical_flip=False,
+                                                        rotate=0, crop_probability=0, color_aug_probability=0)
+                               , lambda: nn_utils.center_crop(self.input))
 
 
         with slim.arg_scope(resnet_arg_scope()):
+
+            ## Why there are two endpoints? Short answer to do batch-normalization correctly.
+            #
+            ## Long answer:
+            # first check this out https://github.com/tensorflow/tensorflow/issues/5987
+
+            ### During training, a network *learns* how to normalize input,
+            ### i.e. tf.layers.batch_normalization params like beta and gamma are *Learned*
+            ### During evaluation, a network *uses* the learned batch-normalization params to normalize input
+
+            ## A lot of iterations are required to learncorrect  tf.layers.batch_normalization params(beta and gamma)
+            ## Really a lot of iterations. Remember this, I will revisit it later
+
+            ## During training, a normalized image is dependent on other images within the mini-batch.
+            ## During evaluation, a normalized image is *not* dependent on other images within the mini-batch.
+
+
+            ## While training a network, a periodic evalution on validation is typical like after every 1000 iterations
+            ## If evaluation on validation images is performed while learning batch-normalization params,
+                # the quantitative performance is not acurrate.
+                # Proof? using a set of images, run evaluation twice by feeding images in different order: alphabetically vs random
+                # The quantitative performance will change
+
+            ## The right way is to evaluate using the already *learned batch_normalization params(beta and gamma)*
+                # Thus, it is important to make sure batch_normalization params are updated during evaluation
+                ## and each image is normalized independently without any conditioning on the mini-batch
+
+            ## To this end, I replicate my network twice similar to siamese networks.
+            # The weights of both networks are identical and change together during training, i.e. backpropagation
+            # Yet, one network learns batch_normalization params (is_training=True)
+            # while the other uses the already learned params (is_training=False)
+
+            
+
             _, train_end_points = resnet_v2_50(aug_imgs, num_classes, is_training=True,
                              global_pool=global_pool, output_stride=output_stride,
                               spatial_squeeze=spatial_squeeze,

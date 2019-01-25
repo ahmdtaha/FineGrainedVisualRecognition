@@ -282,6 +282,7 @@ class DenseNet161:
             print('Some variables loaded from imagenet')
             return 'Failed to Model Loaded Normally from '+ckpt_file
 
+
     def __init__(self,num_classes, weight_decay=0.0001, data_format='NHWC',is_training=False,reuse=None,
                  images_ph = None,
                  lbls_ph = None):
@@ -292,37 +293,33 @@ class DenseNet161:
         else:
             self.gt_lbls = tf.placeholder(tf.int32, shape=(batch_size, config.num_classes), name='class_lbls')
 
-        self.is_training = tf.placeholder(tf.bool, name='training')
-        self.input = tf.placeholder(tf.float32, shape=(batch_size, const.max_frame_size, const.max_frame_size,
-                                                       const.frame_channels), name='context_input')
+        self.augment_input = tf.placeholder(tf.bool, name='augment_input')
 
-        if is_training:
-            if images_ph is not None:
-                self.input = images_ph
-                _,w,h,c = self.input.shape
-                aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
-                # print('No nnutils Augmentation')
-            else:
+        ## Check whether to use placeholder for training (images_ph == None),
+        # or the caller training procedure already provide images dataset pipeline
+        if images_ph is not None:
+            ## If training using images TF dataset pipeline, no need to do augmentation,
+            #  just make sure the input is in the correct shape
 
-                aug_imgs = tf.cond(self.is_training,
-                                   lambda: nn_utils.augment(self.input, horizontal_flip=True, vertical_flip=False,
-                                                            rotate=0, crop_probability=0, color_aug_probability=0)
-                                   , lambda: nn_utils.center_crop(self.input))
+            ## This alternative is more efficient because it avoid the discouraged TF placeholder usage
+            self.input = images_ph
+            _, w, h, c = self.input.shape
+            aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
         else:
-            if images_ph is not None:
-                self.input = images_ph
-                _,w,h,c = self.input.shape
-                aug_imgs = tf.reshape(self.input, [-1, w, h, 3])
-                # print('No nnutils Augmentation')
-            else:
-                # self.input = tf.placeholder(tf.float32, shape=(batch_size, const.frame_height, const.frame_width,
-                #                                                const.frame_channels), name='context_input')
-                aug_imgs = tf.cond(self.is_training,
-                                   lambda: nn_utils.augment(self.input, horizontal_flip=True, vertical_flip=False,
-                                                            rotate=0, crop_probability=0, color_aug_probability=0)
-                                   , lambda: nn_utils.center_crop(self.input))
 
-        #self.batch_norm_enabled = tf.Variable(True, name='is_training', dtype=tf.bool, trainable=False)
+            # If the input provide no images TF dataset pipeline
+            # Revert to the traditional placeholder usage
+            self.input = tf.placeholder(tf.float32, shape=(batch_size, const.max_frame_size, const.max_frame_size,
+                                                           const.frame_channels), name='context_input')
+
+            ## Training procedure controls whether to augment placeholder images
+            #  using self.augment_input bool tensor
+            aug_imgs = tf.cond(self.augment_input,
+                               lambda: nn_utils.augment(self.input, horizontal_flip=True, vertical_flip=False,
+                                                        rotate=0, crop_probability=0, color_aug_probability=0)
+                               , lambda: nn_utils.center_crop(self.input))
+
+
         with tf.contrib.slim.arg_scope(densenet_arg_scope(weight_decay=weight_decay, data_format=data_format)):
             nets, train_end_points = densenet(aug_imgs,
                   num_classes=num_classes,
