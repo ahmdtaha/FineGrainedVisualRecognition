@@ -25,6 +25,13 @@ def main(argv):
 
     img_generator_class = locate(cfg.db_tuple_loader)
     args = dict()
+    args['db_path'] = cfg.db_path
+    args['tuple_loader_queue_size'] = cfg.tuple_loader_queue_size
+    args['preprocess_func'] = cfg.preprocess_func
+    args['batch_size'] = cfg.batch_size
+    args['shuffle'] = False
+    args['img_size'] = const.max_frame_size
+    args['gen_hot_vector'] = True
     args['csv_file'] = cfg.train_csv_file
     train_iter = img_generator_class(args)
 
