@@ -78,7 +78,7 @@ def main(argv):
 
         ## Load a pretrained network {resnet_v2 or densenet161} based on config.network_name configuration
         network_class = locate(cfg.network_name)
-        model = network_class(num_classes=cfg.num_classes, is_training=True, images_ph=images_ph, lbls_ph=lbls_ph)
+        model = network_class(cfg, is_training=True, images_ph=images_ph, lbls_ph=lbls_ph)
 
 
         trainable_vars = tf.trainable_variables()

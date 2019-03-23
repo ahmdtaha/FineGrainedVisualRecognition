@@ -408,7 +408,7 @@ class ResNet50:
         self.cfg = cfg
         batch_size = None
         num_classes = cfg.num_classes
-        
+
         if lbls_ph is not None:
             self.gt_lbls = tf.reshape(lbls_ph, [-1, num_classes])
         else:
