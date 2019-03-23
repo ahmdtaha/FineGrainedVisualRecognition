@@ -1,13 +1,12 @@
 from data.base_tuple_loader import BaseTupleLoader
 import numpy as np
-import configuration as config
 
 class CarsTupleLoader(BaseTupleLoader):
 
     def __init__(self,args):
         BaseTupleLoader.__init__(self,args)
 
-        self.img_path = config.db_path + '/'
+        self.img_path = args['db_path'] + '/'
 
         lbls = self.data_df['label']
         lbl2idx = np.sort(np.unique(lbls))

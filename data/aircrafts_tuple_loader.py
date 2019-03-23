@@ -1,12 +1,11 @@
 from data.base_tuple_loader import BaseTupleLoader
 import numpy as np
-import configuration as config
 
 
 class AircraftsTupleLoader(BaseTupleLoader):
     def __init__(self,args):
         BaseTupleLoader.__init__(self,args)
-        self.img_path = config.db_path + '/fgvc-aircraft-2013b/data/images/'
+        self.img_path = args['db_path'] + '/fgvc-aircraft-2013b/data/images/'
 
 
         lbls = self.data_df['label']

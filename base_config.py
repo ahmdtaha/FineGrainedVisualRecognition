@@ -97,7 +97,7 @@ class BaseConfig:
         if cfg.checkpoint_dir is None:
             checkpoint_dir = [cfg.db_name, cfg.net, 'lr' + str(cfg.learning_rate), 'B' + str(cfg.batch_size),
                               'caf' + str(cfg.caffe_iter_size), 'iter' + str(cfg.train_iters // 1000) + 'K',
-                              'lambda' + str(cfg.triplet_loss_lambda), 'trn_mode_' + str(cfg.train_mode),
+                              'lambda' + str(cfg.triplet_loss_lambda),
                               cfg.checkpoint_suffix]
             checkpoint_dir = '_'.join(checkpoint_dir)
             cfg.checkpoint_dir = os.path.join(training_models_dir, checkpoint_dir)

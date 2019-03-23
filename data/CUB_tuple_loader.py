@@ -1,12 +1,11 @@
 from data.base_tuple_loader import BaseTupleLoader
 import numpy as np
-import configuration as config
 
 class CUBTupleLoader(BaseTupleLoader):
     def __init__(self, args=None):
         BaseTupleLoader.__init__(self,args)
 
-        self.img_path = config.db_path + '/images/'
+        self.img_path = args['db_path'] + '/images/'
 
 
         lbls = self.data_df['label']
