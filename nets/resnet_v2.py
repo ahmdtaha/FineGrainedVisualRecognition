@@ -52,7 +52,6 @@ from __future__ import print_function
 
 import tensorflow as tf
 import constants as const
-import configuration as config
 import nets.nn_utils as nn_utils
 import utils.os_utils as os_utils
 import os
@@ -388,7 +387,7 @@ class ResNet50:
                 else:
                     variables_to_restore.append(var)
             # print(variables_to_restore)
-            init_fn = tf.contrib.framework.assign_from_checkpoint_fn(config.imagenet__weights_filepath, variables_to_restore,ignore_missing_vars=False)
+            init_fn = tf.contrib.framework.assign_from_checkpoint_fn(self.cfg.imagenet__weights_filepath, variables_to_restore,ignore_missing_vars=False)
             # init_fn = tf.contrib.framework.assign_from_checkpoint_fn(config.imagenet__weights_filepath)
             init_fn(sess)
             print('Some variables loaded from imagenet')
@@ -396,7 +395,7 @@ class ResNet50:
 
 
     def __init__(self,
-                 num_classes=None,
+                 cfg=None,
                  is_training=True,
                  global_pool=True,
                  output_stride=None,
@@ -406,11 +405,14 @@ class ResNet50:
                  images_ph=None,
                  lbls_ph=None
                  ):
+        self.cfg = cfg
         batch_size = None
+        num_classes = cfg.num_classes
+        
         if lbls_ph is not None:
-            self.gt_lbls = tf.reshape(lbls_ph, [-1, config.num_classes])
+            self.gt_lbls = tf.reshape(lbls_ph, [-1, num_classes])
         else:
-            self.gt_lbls = tf.placeholder(tf.int32, shape=(batch_size, config.num_classes), name='class_lbls')
+            self.gt_lbls = tf.placeholder(tf.int32, shape=(batch_size, num_classes), name='class_lbls')
 
         self.augment_input = tf.placeholder(tf.bool, name='augment_input')
 
