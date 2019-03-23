@@ -151,7 +151,7 @@ def main(argv):
         logger.info('Start Training ***********')
         best_acc = 0
         best_model_step = 0
-        for current_iter in range(start_iter, cfg.max_iter+1):
+        for current_iter in range(start_iter, cfg.train_iters+1):
             start_time_train = time.time()
             feed_dict = {handle: training_handle}
 
