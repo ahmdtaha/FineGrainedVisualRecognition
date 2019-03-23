@@ -179,8 +179,9 @@ def main(argv):
                     'i {0:04d} loss {1:4f} Acc {2:2f} Batch Time {3:3f}'.format(current_iter, model_loss_value, accuracy_value,
                                                                                 train_time))
 
-                if (current_iter % cfg.test_iteration == 0):
-                    run_metadata = tf.RunMetadata()
+                if (current_iter % cfg.test_interval == 0):
+                    # run_metadata = tf.RunMetadata()
+
                     tf.local_variables_initializer().run()
                     sess.run(validation_iterator.initializer)
 
@@ -191,7 +192,7 @@ def main(argv):
                                 [val_loss, model.val_accuracy, model_acc_op, val_acc_op, model.val_accumulated_accuracy,
                                  model.val_confusion_mat], feed_dict)
                         except tf.errors.OutOfRangeError:
-                            mprint('Val Acc {0}'.format(_val_acc),log)
+                            logger.info('Val Acc {0}'.format(_val_acc))
                             break
 
 
