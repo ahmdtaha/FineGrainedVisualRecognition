@@ -85,7 +85,7 @@ def main(argv):
         with tf.control_dependencies(update_ops):
 
             global_step = tf.Variable(0, name='global_step', trainable=False)
-            learning_rate = tf_utils.poly_lr(global_step)
+            learning_rate = tf_utils.poly_lr(global_step,cfg)
             optimizer = tf.train.MomentumOptimizer(learning_rate, momentum=0.9)
 
             if cfg.caffe_iter_size > 1:  ## Accumulated Gradient
