@@ -56,8 +56,8 @@ def main(argv):
 
         # Create train and val dataset following tensorflow Data API
         ## A dataset element has an image and lable
-        train_dataset = TensorflowTupleLoader(train_imgs, train_lbls, is_training=True).dataset
-        val_dataset = TensorflowTupleLoader(val_imgs, val_lbls, is_training=False, batch_size=cfg.batch_size,
+        train_dataset = TensorflowTupleLoader(train_imgs, train_lbls,cfg, is_training=True).dataset
+        val_dataset = TensorflowTupleLoader(val_imgs, val_lbls,cfg, is_training=False, batch_size=cfg.batch_size,
                                        repeat=False).dataset
 
         handle = tf.placeholder(tf.string, shape=[])

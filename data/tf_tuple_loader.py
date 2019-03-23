@@ -1,21 +1,20 @@
 from pydoc import locate
 import tensorflow as tf
-import configuration as config
 import constants as const
 from nets import nn_utils
 
 class TensorflowTupleLoader:
 
-    def __init__(self,imgs,lbls ,is_training,repeat=True,batch_size=None):
+    def __init__(self,imgs,lbls ,cfg,is_training,repeat=True,batch_size=None):
         self.dataset = self.dataset_from_files(imgs, lbls,is_training,repeat=repeat,batch_size=batch_size)
 
 
-    def dataset_from_files(self,train_imgs, train_lbls,is_training,repeat=True,batch_size=None):
+    def dataset_from_files(self,train_imgs, train_lbls,cfg,is_training,repeat=True,batch_size=None):
 
         def _parse_function(filename, label):
             image_string = tf.read_file(filename)
             image_decoded = tf.image.decode_jpeg(image_string,channels=3) ## uint8 image
-            return image_decoded, tf.one_hot(label, config.num_classes,dtype=tf.int64)
+            return image_decoded, tf.one_hot(label, cfg.num_classes,dtype=tf.int64)
 
         filenames = tf.constant(train_imgs)
         labels = tf.constant(train_lbls,dtype=tf.int32)
@@ -41,7 +40,7 @@ class TensorflowTupleLoader:
         # dataset = dataset.map(lambda im, lbl,weight: (func_name (im,const.frame_height,const.frame_width), lbl,weight))
 
         if batch_size is None:
-            batch_size = config.batch_size
+            batch_size = cfg.batch_size
         else:
             print('Eval Batch used')
 
