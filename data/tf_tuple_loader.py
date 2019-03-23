@@ -6,7 +6,7 @@ from nets import nn_utils
 class TensorflowTupleLoader:
 
     def __init__(self,imgs,lbls ,cfg,is_training,repeat=True,batch_size=None):
-        self.dataset = self.dataset_from_files(imgs, lbls,is_training,repeat=repeat,batch_size=batch_size)
+        self.dataset = self.dataset_from_files(imgs, lbls,cfg,is_training,repeat=repeat,batch_size=batch_size)
 
 
     def dataset_from_files(self,train_imgs, train_lbls,cfg,is_training,repeat=True,batch_size=None):
