@@ -92,7 +92,7 @@ class BaseConfig:
 
         local_datasets_dir, pretrained_weights_dir, training_models_dir, dump_path, logging_threshold, batch_size, caffe_iter_size, debug_mode = self._load_user_setup()
         cfg.num_classes, cfg.db_path, cfg.db_tuple_loader, cfg.train_csv_file, cfg.val_csv_file, cfg.test_csv_file    = self.db_configuration(cfg.db_name,local_datasets_dir)
-        cfg.network_name, cfg.imagenet__weights_filepath, cfg.preprocess_func, cfg.preprocessing_module = self._load_net_configuration(cfg.net,pretrained_weights_dir)
+        cfg.network_name, cfg.imagenet__weights_filepath, cfg.preprocess_func = self._load_net_configuration(cfg.net,pretrained_weights_dir)
 
         if cfg.checkpoint_dir is None:
             checkpoint_dir = [cfg.db_name, cfg.net, 'lr' + str(cfg.learning_rate), 'B' + str(cfg.batch_size),
@@ -114,78 +114,77 @@ class BaseConfig:
             network_name = 'nets.resnet_v2.ResNet50'
             imagenet__weights_filepath = pretrained_weights_dir + 'resnet_v2_50/resnet_v2_50.ckpt'
             preprocess_func = 'inception_v1'
-            preprocessing_module = 'data_sampling.augmentation.inception_preprocessing'
         elif model == 'resnet50_v1':
             network_name = 'nets.resnet_v1.ResNet50'
             imagenet__weights_filepath = pretrained_weights_dir + 'resnet_v1_50/resnet_v1_50.ckpt'
             preprocess_func = 'vgg'
-            preprocessing_module = 'data_sampling.augmentation.inception_preprocessing'
+
         elif model == 'densenet161':
             network_name = 'nets.densenet161.DenseNet161'
             imagenet__weights_filepath = pretrained_weights_dir + 'tf-densenet161/tf-densenet161.ckpt'
             preprocess_func = 'densenet'
-            preprocessing_module = 'data_sampling.augmentation.densenet_preprocessing'
+
         elif model == 'inc4':
             network_name = 'nets.inception_v4.InceptionV4'
             imagenet__weights_filepath = pretrained_weights_dir + 'inception_v4/inception_v4.ckpt'
             preprocess_func = 'inception_v1'
-            preprocessing_module = 'data_sampling.augmentation.inception_preprocessing'
+
         elif model == 'inc3':
             network_name = 'nets.inception_v3.InceptionV3'
             imagenet__weights_filepath = pretrained_weights_dir + 'inception_v3.ckpt'
             preprocess_func = 'inception_v1'
-            preprocessing_module = 'data_sampling.augmentation.inception_preprocessing'
+
         elif model == 'mobile':
             network_name = 'nets.mobilenet_v1.MobileV1'
             imagenet__weights_filepath = pretrained_weights_dir + 'mobilenet_v1_1.0_224/mobilenet_v1_1.0_224.ckpt'
             preprocess_func = 'inception_v1'
-            preprocessing_module = 'data_sampling.augmentation.inception_preprocessing'
+
         else:
             raise NotImplementedError('network name not found')
 
-        return network_name,imagenet__weights_filepath,preprocess_func,preprocessing_module
+        return network_name,imagenet__weights_filepath,preprocess_func
 
     def db_configuration(self, dataset_name, datasets_dir):
 
         if dataset_name == 'flowers':
             num_classes = 102
             db_path = datasets_dir + 'flower102'
-            db_tuple_loader = 'data_sampling.flower_tuple_loader.FLower102TupleLower'
+            db_tuple_loader = 'data.flower_tuple_loader.FLower102TupleLower'
             train_csv_file = '/lists/train_all_sub_list.csv'
             val_csv_file = '/lists/val_all_sub_list.csv'
             test_csv_file = '/lists/test_all_sub_list.csv'
         elif dataset_name == 'cars':
             num_classes = 196
             db_path = datasets_dir + 'stanford_cars'
-            db_tuple_loader = 'data_sampling.cars_tuple_loader.CarsTupleLoader'
+            db_tuple_loader = 'data.cars_tuple_loader.CarsTupleLoader'
             train_csv_file = '/lists/train_all_sub_list.csv'
             val_csv_file = '/lists/val_all_sub_list.csv'
             test_csv_file = '/lists/test_all_sub_list.csv'
         elif dataset_name == 'aircrafts':
             num_classes = 100
             db_path = datasets_dir + 'aircrafts'
-            db_tuple_loader = 'data_sampling.aircrafts_tuple_loader.AircraftsTupleLoader'
+            db_tuple_loader = 'data.aircrafts_tuple_loader.AircraftsTupleLoader'
             train_csv_file = '/lists/train_all_sub_list.csv'
             val_csv_file = '/lists/val_all_sub_list.csv'
             test_csv_file = '/lists/test_all_sub_list.csv'
         elif dataset_name == 'cub':
             num_classes = 200
             db_path = datasets_dir + 'CUB_200_2011'
-            db_tuple_loader = 'data_sampling.CUB_tuple_loader.CUBTupleLoader'
+            db_tuple_loader = 'data.CUB_tuple_loader.CUBTupleLoader'
             train_csv_file = '/lists/train_all_sub_list.csv'
             val_csv_file = '/lists/val_sub_list.csv'
             test_csv_file = '/lists/test_all_sub_list.csv'
         elif dataset_name == 'dogs':
             num_classes = 120
             db_path = datasets_dir + 'Stanford_dogs'
-            db_tuple_loader = 'data_sampling.dogs_tuple_loader.DogsTupleLoader'
+            db_tuple_loader = 'data.dogs_tuple_loader.DogsTupleLoader'
             train_csv_file = '/lists/train_all_sub_list.csv'
             val_csv_file = '/lists/val_sub_list.csv'
             test_csv_file = '/lists/test_all_sub_list.csv'
         elif dataset_name == 'birds':
             num_classes = 555
             db_path = datasets_dir + 'nabirds'
-            db_tuple_loader = 'data_sampling.birds_tuple_loader.BirdsTupleLoader'
+            db_tuple_loader = 'data.birds_tuple_loader.BirdsTupleLoader'
             train_csv_file = '/lists/train_all_sub_list.csv'
             val_csv_file = '/lists/val_sub_list.csv'
             test_csv_file = '/lists/test_all_sub_list.csv'
