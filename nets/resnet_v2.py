@@ -473,7 +473,7 @@ class ResNet50:
             # Yet, one network learns batch_normalization params (is_training=True)
             # while the other uses the already learned params (is_training=False)
 
-            
+
 
             _, train_end_points = resnet_v2_50(aug_imgs, num_classes, is_training=True,
                              global_pool=global_pool, output_stride=output_stride,

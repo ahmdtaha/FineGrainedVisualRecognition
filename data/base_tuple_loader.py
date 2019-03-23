@@ -1,4 +1,3 @@
-import configuration as config
 import numpy as np
 import imageio
 import cv2
@@ -9,7 +8,7 @@ class BaseTupleLoader:
 
     def __init__(self,args):
         csv_file = args['csv_file']
-        db_path = config.db_path
+        db_path = args['db_path']
         self.data_df = pd.read_csv(db_path + csv_file)
 
         shuffle_data = args['shuffle'] if 'shuffle' in args else True
@@ -35,13 +34,11 @@ class BaseTupleLoader:
             No exceptions raised.
         """
 
-        images = []
-        lbls = []
         imgs = self.data_df
+        images = imgs['file_name'].tolist()
+        lbls = imgs['label'].tolist()
         for img_idx in range(imgs.shape[0]):
-            img_path = self.img_path + imgs.iloc[img_idx]['file_name']
-            lbl = self.lbl2idx_dict[imgs.iloc[img_idx]['label']]
-            images.append(img_path)
-            lbls.append(lbl)
+            images[img_idx] = self.img_path + images[img_idx]
+            lbls[img_idx] = self.lbl2idx_dict[lbls[img_idx]]
 
         return images, lbls

@@ -1,81 +1,18 @@
-# Credits : https://github.com/VisualComputingInstitute/triplet-reid/blob/master/common.py
 import logging
+import os
+from utils import os_utils
 
-def get_logging_dict(name):
-    return {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'standard': {
-                'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
-            },
-        },
-        'handlers': {
-            'stderr': {
-                'level': 'INFO',
-                'formatter': 'standard',
-                'class': 'utils.log_utils.ColorStreamHandler',
-                'stream': 'ext://sys.stderr',
-            },
-            'logfile': {
-                'level': 'DEBUG',
-                'formatter': 'standard',
-                'class': 'logging.FileHandler',
-                'filename': name + '.log',
-                'mode': 'a',
-            }
-        },
-        'loggers': {
-            '': {
-                'handlers': ['stderr', 'logfile'],
-                'level': 'DEBUG',
-                'propagate': True
-            },
-
-            # extra ones to shut up.
-            'tensorflow': {
-                'handlers': ['stderr', 'logfile'],
-                'level': 'INFO',
-            },
-        }
-    }
-
-
-
-# Source for the remainder: https://gist.github.com/mooware/a1ed40987b6cc9ab9c65
-# Fixed some things mentioned in the comments there.
-
-# colored stream handler for python logging framework (use the ColorStreamHandler class).
+# tensorflow_logger = logging.getLogger('tensorflow')
+# tensorflow_logger.setLevel(logging.DEBUG)
 #
-# based on:
-# http://stackoverflow.com/questions/384076/how-can-i-color-python-logging-output/1336640#1336640
+# # create formatter and add it to the handlers
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# # create file handler which logs even debug messages
+# fh = logging.FileHandler(os.path.join(config.model_save_path ,'tensorflow.txt'))
+# fh.setLevel(logging.DEBUG)
+# fh.setFormatter(formatter)
+# tensorflow_logger.addHandler(fh)
 
-# how to use:
-# i used a dict-based logging configuration, not sure what else would work.
-#
-# import logging, logging.config, colorstreamhandler
-#
-# _LOGCONFIG = {
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#
-#     "handlers": {
-#         "console": {
-#             "class": "colorstreamhandler.ColorStreamHandler",
-#             "stream": "ext://sys.stderr",
-#             "level": "INFO"
-#         }
-#     },
-#
-#     "root": {
-#         "level": "INFO",
-#         "handlers": ["console"]
-#     }
-# }
-#
-# logging.config.dictConfig(_LOGCONFIG)
-# mylogger = logging.getLogger("mylogger")
-# mylogger.warning("foobar")
 
 # Copyright (c) 2014 Markus Pointner
 #
@@ -198,3 +135,51 @@ if platform.system() == 'Windows':
     ColorStreamHandler = _WinColorStreamHandler
 else:
     ColorStreamHandler = _AnsiColorStreamHandler
+
+def get_logging_dict(name):
+    return {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'standard': {
+                'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+            },
+        },
+        'handlers': {
+            'stderr': {
+                'level': 'INFO',
+                'formatter': 'standard',
+                'class': 'utils.log_utils.ColorStreamHandler',
+                'stream': 'ext://sys.stderr',
+            },
+            'logfile': {
+                'level': 'DEBUG',
+                'formatter': 'standard',
+                'class': 'logging.FileHandler',
+                'filename': name,
+                'mode': 'a',
+            }
+        },
+        'loggers': {
+            '': {
+                'handlers': ['stderr', 'logfile'],
+                'level': 'DEBUG',
+                'propagate': True
+            },
+
+            # extra ones to shut up.
+            'tensorflow': {
+                'handlers': ['stderr', 'logfile'],
+                'level': 'INFO',
+            },
+        }
+    }
+
+def create_logger(log_file):
+    import logging.config
+    logging.config.dictConfig(get_logging_dict(log_file))
+    root_logger = logging.getLogger('Log')
+
+    return root_logger
+
+
