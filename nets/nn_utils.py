@@ -1,7 +1,6 @@
 import tensorflow as tf
 import math
 import constants as const
-import configuration as config
 
 _R_MEAN = 123.68
 _G_MEAN = 116.78
@@ -89,14 +88,14 @@ def inception_preprocessing(images):
 
     return images
 
-def center_crop(images): ## Used during evaluation
+def center_crop(images,preprocess_func ): ## Used during evaluation
     center_offest = (256 - const.frame_width )//2 # I already resized all images to 256
     images = tf.image.crop_to_bounding_box(images, center_offest , center_offest , const.frame_height, const.frame_width)
 
-    if config.preprocess_func == 'inception_v1':
+    if preprocess_func == 'inception_v1':
         print('Inception Format Augmentation')
         images = inception_preprocessing(images)
-    elif config.preprocess_func == 'densenet':
+    elif preprocess_func == 'densenet':
         print('DenseNet Format Augmentation')
         images = denseNet_preprocess(images)
     else:
@@ -105,6 +104,7 @@ def center_crop(images): ## Used during evaluation
     return images
 
 def augment(images,
+            preprocess_func,
             resize=None,  # (width, height) tuple or None
             horizontal_flip=False,
             vertical_flip=False,
@@ -128,10 +128,10 @@ def augment(images,
     images = tf.image.crop_to_bounding_box(images,height_offset, width_offest, const.frame_height , const.frame_width )
 
 
-    if config.preprocess_func == 'densenet':
+    if preprocess_func == 'densenet':
         print('DenseNet Format Augmentation')
         images = denseNet_preprocess(images)
-    elif config.preprocess_func == 'inception_v1':
+    elif preprocess_func == 'inception_v1':
         print('Inception Format Augmentation')
         images = inception_preprocessing(images)
     else:

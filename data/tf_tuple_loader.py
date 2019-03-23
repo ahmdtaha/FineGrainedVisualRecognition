@@ -49,10 +49,10 @@ class TensorflowTupleLoader:
 
         ## Batch Level Augmentation
         if is_training:
-            dataset = dataset.map(lambda im_batch, lbl_batch: (nn_utils.augment(im_batch,
+            dataset = dataset.map(lambda im_batch, lbl_batch: (nn_utils.augment(im_batch,cfg.preprocess_func,
                                                            resize=(const.frame_height, const.frame_width),horizontal_flip=True, vertical_flip=False, rotate=0, crop_probability=0,crop_min_percent=0), lbl_batch))
         else:
-            dataset = dataset.map(lambda im_batch, lbl_batch: (nn_utils.center_crop(im_batch),lbl_batch))
+            dataset = dataset.map(lambda im_batch, lbl_batch: (nn_utils.center_crop(im_batch,cfg.preprocess_func),lbl_batch))
 
 
         dataset = dataset.prefetch(1)
