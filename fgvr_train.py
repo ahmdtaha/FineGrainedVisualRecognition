@@ -215,8 +215,6 @@ def main(argv):
                         logger.info('Best Acc {0} at {1} == {2}'.format(best_acc, best_model_step, model_basename))
 
         saver.save(sess, ckpt_file)  ## Save final ckpt before closing
-        ckpt = os.path.join(save_model_dir, str(current_iter), cfg.model_save_name)
-        saver.save(sess, ckpt)
         sess.close()
 
 
