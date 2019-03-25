@@ -44,7 +44,8 @@ The results are preliminary because I didn't wait for till max_iters. Other data
 
 ## Running
 
-Make sure to edit the (1) dataset\_dir (2) pretrained\_weights\_dir in configuration.py.
+`base_config` contains all the parameters needed to run the train the model. The main function in `fgvr_train.py` shows how to set these parameters.
+
 Run `python fgvr_train.py `
 
 
