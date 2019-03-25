@@ -44,7 +44,7 @@ The results are preliminary because I didn't wait for till max_iters. Other data
 
 ## Running
 
-`base_config` contains all the parameters needed to run the train the model. The main function in `fgvr_train.py` shows how to set these parameters.
+`base_config` contains all the parameters needed to train the model. The main function in `fgvr_train.py` shows how to set these parameters.
 
 Run `python fgvr_train.py `
 
