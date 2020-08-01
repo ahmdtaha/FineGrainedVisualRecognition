@@ -30,9 +30,9 @@ class BaseConfig:
         self.parser.add_argument('--logging_threshold', type=int, default=500,
                                  help='Number of parallel threads')
         self.parser.add_argument('--test_interval', type=int, default=10,
-                                 help='Number of parallel threads')
+                                 help='When to run eval on test split? after how many training iterations')
         self.parser.add_argument('--train_iters', type=int, default=40000,
-                                 help='Number of parallel threads')
+                                 help='The number of training iterations')
 
 
         self.parser.add_argument('--Triplet_K', type=int, default=4,
