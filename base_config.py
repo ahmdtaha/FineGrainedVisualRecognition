@@ -24,11 +24,11 @@ class BaseConfig:
         self.parser.add_argument('--tuple_loader_queue_size', type=int, default=10,
                                  help='Number of parallel threads')
         self.parser.add_argument('--triplet_loss_lambda', type=int, default=1,
-                                 help='Number of parallel threads')
+                                 help='What is the balancing variable for triplet loss?')
         self.parser.add_argument('--caffe_iter_size', type=int, default=1,
-                                 help='Number of parallel threads')
+                                 help='Aggregate gradient, like-caffe, across how many interations?')
         self.parser.add_argument('--logging_threshold', type=int, default=500,
-                                 help='Number of parallel threads')
+                                 help='When to print the training loss log? (in iterations)')
         self.parser.add_argument('--test_interval', type=int, default=10,
                                  help='When to run eval on test split? after how many training iterations')
         self.parser.add_argument('--train_iters', type=int, default=40000,
@@ -36,20 +36,19 @@ class BaseConfig:
 
 
         self.parser.add_argument('--Triplet_K', type=int, default=4,
-                                 help='Number of parallel threads')
-        self.parser.add_argument('--checkpoint_suffix', type=str, default='base_config',
-                                 help='Number of parallel threads')
+                                 help='Number of samples per class in a mini-batch?')
 
         self.parser.add_argument('--checkpoint_filename', type=str, default='model.ckpt',
-                                 help='Number of parallel threads')
-
+                                 help='what is the name of the checkpoint file?')
+        self.parser.add_argument('--checkpoint_suffix', type=str, default='base_config',
+                                 help='What is the suffix of the checkpoint file?')
         self.parser.add_argument('--learning_rate', type=float, default=0.01,
-                                 help='Number of parallel threads')
+                                 help='What is the learning rate?')
         self.parser.add_argument('--end_learning_rate', type=float, default=0,
-                                 help='Number of parallel threads')
+                                 help='What is the end learning rate? used to craft a polynomial decay scheduler')
 
         self.parser.add_argument('--log_filename', type=str, default='logger',
-                                 help='Number of parallel threads')
+                                 help='what is the name of the training log file')
 
 
 
@@ -74,7 +73,7 @@ class BaseConfig:
             caffe_iter_size = 10
             debug_mode = False
             dump_path = ''
-        else:  ## Assuming Honda 32 GB GPU
+        else:  ## Assuming 32 GB GPU
             ##TODO : Make sure to fill these values
             local_datasets_dir = ''  # where is the dataset
             pretrained_weights_dir = local_datasets_dir + 'Model/'  # where the imagenet pre-trained weight
